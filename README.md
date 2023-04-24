@@ -23,9 +23,14 @@ Te muestra la lista de países de esa región
 ![](https://raw.githubusercontent.com/sgcm14/paises-app/master/doc/imagen5.png)
 > Pantalla de **Buscar región**
 
-Al ingresar el nombre de la búsqueda se debe presionar ENTER ó elegir la capital deseada:
+Al ingresar el nombre de la búsqueda, este aparecera en unos segundos despues por el event **debounce**:
 ![](https://raw.githubusercontent.com/sgcm14/paises-app/master/doc/imagen6.png)
 > Pantalla de **Buscar capital**
+
+Se realizó una actualización para consumir la v3.1 de **rest-countries**, modificando algunas implementaciones para los datos, se hizo una refactorización en el servicio y también la persistencia de datos enviándose al servicio y luego al **localStorage**.
+
+![](https://raw.githubusercontent.com/sgcm14/paises-app/master/doc/imagen7.png)
+> **Local Storage**
 
 
 **Realizado por :** Sammy Gigi Cantoral Montejo (sgcm14)
