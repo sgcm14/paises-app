@@ -12,24 +12,29 @@ import { PaisService } from 'src/app/pais/services/pais.service';
 export class PorCapitalComponent implements OnInit {
 
   termino: string = "";
-  hayError: boolean = false;
+  // hayError: boolean = false;
   paises: Country[]=[];
+  public isLoading: boolean = false;
+  public initialValue: string ='';
 
   constructor(private paisService: PaisService) { }
 
   ngOnInit(): void {
+    this.paises = this.paisService.cacheStore.byCapital.countries;
+    this.initialValue= this.paisService.cacheStore.byCapital.term;
   }
 
   buscar( termino: string) {
-    this.hayError = false;
+    // this.hayError = false;
     this.termino = termino;
+    this.isLoading=true;
     
     this.paisService.buscarCapital(this.termino)
       .subscribe((paises) => {
         this.paises= paises;
-      
+        this.isLoading = false;
       }, (err) => {
-        this.hayError = true;
+        // this.hayError = true;
         this.paises = [];
       });
   }

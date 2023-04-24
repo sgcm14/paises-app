@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Country } from 'src/app/pais/interfaces/pais.interface';
 import { PaisService } from 'src/app/pais/services/pais.service';
+import { Country } from 'src/app/pais/interfaces/pais.interface';
+import { Region } from 'src/app/pais/interfaces/region.type';
+
+
 
 @Component({
   selector: 'app-por-region',
@@ -14,13 +17,19 @@ import { PaisService } from 'src/app/pais/services/pais.service';
 })
 export class PorRegionComponent implements OnInit {
 
-  regiones: string[] = ['EU', 'EFTA', 'CARICOM', 'PA', 'AU', 'USAN', 'EEU', 'AL', 'ASEAN', 'CAIS', 'CEFTA', 'NAFTA', 'SAARC'];
+  regiones: Region[] = ['Africa','Americas','Asia','Europe','Oceania'];
   regionActiva: string = '';
   paises: Country[] = [];
 
   constructor(private paisService: PaisService) { }
 
-  activarRegion(region: string) {
+  ngOnInit(): void {
+    this.paises = this.paisService.cacheStore.byRegion.countries;
+    this.regionActiva = this.paisService.cacheStore.byRegion.region;
+    // this.activarRegion(this.paisService.cacheStore.byRegion.region);
+  }
+
+  activarRegion(region: Region) {
 
     if (region === this.regionActiva) { return; }
 
@@ -37,11 +46,8 @@ export class PorRegionComponent implements OnInit {
       });
   }
 
-  getClaseCSS(region: string) {
+  getClaseCSS(region: Region) {
     return (region === this.regionActiva) ? 'btn btn-primary' : 'btn btn-outline-primary';
-  }
-
-  ngOnInit(): void {
   }
 
 }

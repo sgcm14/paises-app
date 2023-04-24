@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { debounceTime, Subject } from 'rxjs';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { debounceTime, Subject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-pais-input',
@@ -7,12 +7,14 @@ import { debounceTime, Subject } from 'rxjs';
   styles: [
   ]
 })
-export class PaisInputComponent implements OnInit {
+export class PaisInputComponent implements OnInit, OnDestroy {
 
-  
+  private debouncerSuscription?: Subscription;
+
   @Output() onEnter : EventEmitter<string> = new EventEmitter();
   @Output() onDebounce : EventEmitter<string> = new EventEmitter();
-  @Input() placeholder : String = '';
+  @Input() placeholder : string = '';
+  @Input() initValue:  string = '';
 
   debouncer: Subject<string> = new Subject();
   termino : string = '';
@@ -20,12 +22,21 @@ export class PaisInputComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.debouncer
+
+    if(this.initValue){
+      this.termino = this.initValue;
+    }
+
+    this.debouncerSuscription= this.debouncer
       .pipe(
         debounceTime(300))
       .subscribe( valor =>{
         this.onDebounce.emit(valor);        
     })
+  }
+
+  ngOnDestroy(): void {
+    this.debouncerSuscription?.unsubscribe();
   }
 
   buscar(){

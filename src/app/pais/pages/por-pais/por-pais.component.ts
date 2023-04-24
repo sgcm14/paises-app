@@ -17,19 +17,22 @@ import { PaisService } from 'src/app/pais/services/pais.service';
 export class PorPaisComponent implements OnInit {
 
   termino: string = "";
-  hayError: boolean = false;
+  // hayError: boolean = false;
   paises: Country[] = [];
   paisesSugeridos: Country[] = [];
   mostrarSugerencias: boolean=false;
+  public initialValue: string ='';
 
   constructor(private paisService: PaisService) { }
 
   ngOnInit(): void {
+    this.paises = this.paisService.cacheStore.byCountries.countries;
+    this.initialValue= this.paisService.cacheStore.byCountries.term;
   }
 
   buscar(termino: string) {
     this.mostrarSugerencias=false;
-    this.hayError = false;
+    // this.hayError = false;
     this.termino = termino;
 
     this.paisService.buscarPais(this.termino)
@@ -37,13 +40,13 @@ export class PorPaisComponent implements OnInit {
         this.paises = paises;
 
       }, (err) => {
-        this.hayError = true;
+        // this.hayError = true;
         this.paises = [];
       });
   }
 
   sugerencias(termino: string) {
-    this.hayError = false;
+    // this.hayError = false;
     this.termino = termino;
     this.mostrarSugerencias=true;
     this.paisService.buscarPais(termino)
